@@ -37,9 +37,6 @@ namespace Trivia.Core
         public bool AddPlayer(string playerName)
         {
             players.Add(playerName);
-            places[PlayerCount] = 0;
-            purses[PlayerCount] = 0;
-            inPenaltyBox[PlayerCount] = false;
 
             Console.WriteLine(playerName + " was added");
             Console.WriteLine("They are player number " + players.Count);
