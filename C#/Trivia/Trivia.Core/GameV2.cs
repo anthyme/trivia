@@ -131,10 +131,7 @@ namespace Trivia.Core
             {
                 Log("Answer was corrent!!!!");
                 CurrentPlayer.Purse++;
-                Log(CurrentPlayer
-                        + " now has "
-                        + CurrentPlayer.Purse
-                        + " Gold Coins.");
+                Log($"{CurrentPlayer.Name} now has {CurrentPlayer.Purse} Gold Coins.");
 
                 bool winner = DidPlayerWin();
                 currentPlayerIndex++;
@@ -175,11 +172,6 @@ namespace Trivia.Core
         public Player(string name)
         {
             Name = name;
-        }
-
-        public override string ToString()
-        {
-            return Name;
         }
     }
 
