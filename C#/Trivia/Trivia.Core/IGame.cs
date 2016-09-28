@@ -34,7 +34,7 @@ namespace Trivia.Core
 
         public bool CorrectAnswer()
         {
-            return game.wasCorrectlyAnswered();
+            return !game.wasCorrectlyAnswered();
         }
     }
 }

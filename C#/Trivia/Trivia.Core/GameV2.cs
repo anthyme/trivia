@@ -130,7 +130,7 @@ namespace Trivia.Core
                 {
                     currentPlayer++;
                     if (currentPlayer == players.Count) currentPlayer = 0;
-                    return true;
+                    return false;
                 }
             }
             else
@@ -162,7 +162,7 @@ namespace Trivia.Core
 
         private bool DidPlayerWin()
         {
-            return purses[currentPlayer] != 6;
+            return purses[currentPlayer] == 6;
         }
 
         private void Log(string message)
