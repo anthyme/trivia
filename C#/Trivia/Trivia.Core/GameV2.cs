@@ -1,26 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Trivia.Core
 {
     public class GameV2 : IGame
     {
-        private readonly List<string> players = new List<string>();
-
-        private readonly int[] places = new int[6];
-        private readonly int[] purses = new int[6];
-
-        private readonly bool[] inPenaltyBox = new bool[6];
-
+        private readonly List<Player> players = new List<Player>();
         private readonly Deck popQuestions = new Deck();
         private readonly Deck scienceQuestions = new Deck();
         private readonly Deck sportsQuestions = new Deck();
         private readonly Deck rockQuestions = new Deck();
         private readonly Board board;
 
-        private int currentPlayer = 0;
+        private int currentPlayerIndex = 0;
 
         private bool isGettingOutOfPenaltyBox;
 
@@ -53,98 +46,99 @@ namespace Trivia.Core
         }
 
         private int PlayerCount => players.Count;
+        private Player CurrentPlayer => players[currentPlayerIndex];
 
         public void AddPlayer(string playerName)
         {
-            players.Add(playerName);
+            players.Add(new Player(playerName));
             Log(playerName + " was added");
             Log("They are player number " + players.Count);
         }
 
         public void Roll(int roll)
         {
-            Log(players[currentPlayer] + " is the current player");
+            Log(CurrentPlayer.Name + " is the current player");
             Log("They have rolled a " + roll);
 
-            if (inPenaltyBox[currentPlayer])
+            if (CurrentPlayer.InPenaltyBox)
             {
                 if (roll % 2 != 0)
                 {
                     isGettingOutOfPenaltyBox = true;
 
-                    Log(players[currentPlayer] + " is getting out of the penalty box");
-                    places[currentPlayer] = places[currentPlayer] + roll;
-                    if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
+                    Log(CurrentPlayer.Name + " is getting out of the penalty box");
+                    CurrentPlayer.Position = CurrentPlayer.Position + roll;
+                    if (CurrentPlayer.Position > 11) CurrentPlayer.Position = CurrentPlayer.Position - 12;
 
-                    Log(players[currentPlayer]
+                    Log(CurrentPlayer.Name
                             + "'s new location is "
-                            + places[currentPlayer]);
-                    Log("The category is " + board[places[currentPlayer]].Category);
+                            + CurrentPlayer.Position);
+                    Log("The category is " + board[CurrentPlayer.Position].Category);
                     AskQuestion();
                 }
                 else
                 {
-                    Log(players[currentPlayer] + " is not getting out of the penalty box");
+                    Log(CurrentPlayer.Name + " is not getting out of the penalty box");
                     isGettingOutOfPenaltyBox = false;
                 }
             }
             else
             {
-                places[currentPlayer] = places[currentPlayer] + roll;
-                if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
+                CurrentPlayer.Position = CurrentPlayer.Position + roll;
+                if (CurrentPlayer.Position > 11) CurrentPlayer.Position = CurrentPlayer.Position - 12;
 
-                Log(players[currentPlayer]
+                Log(CurrentPlayer.Name
                         + "'s new location is "
-                        + places[currentPlayer]);
-                Log("The category is " + board[places[currentPlayer]].Category);
+                        + CurrentPlayer.Position);
+                Log("The category is " + board[CurrentPlayer.Position].Category);
                 AskQuestion();
             }
         }
 
         private void AskQuestion()
         {
-            var card = board[places[currentPlayer]].AssociatedDeck.Dequeue();
+            var card = board[CurrentPlayer.Position].AssociatedDeck.Dequeue();
             Log(card);
         }
 
         public bool CorrectAnswer()
         {
-            if (inPenaltyBox[currentPlayer])
+            if (CurrentPlayer.InPenaltyBox)
             {
                 if (isGettingOutOfPenaltyBox)
                 {
                     Log("Answer was correct!!!!");
-                    purses[currentPlayer]++;
-                    Log(players[currentPlayer]
+                    CurrentPlayer.Purse++;
+                    Log(CurrentPlayer.Name
                             + " now has "
-                            + purses[currentPlayer]
+                            + CurrentPlayer.Purse
                             + " Gold Coins.");
 
                     bool winner = DidPlayerWin();
-                    currentPlayer++;
-                    if (currentPlayer == players.Count) currentPlayer = 0;
+                    currentPlayerIndex++;
+                    if (currentPlayerIndex == players.Count) currentPlayerIndex = 0;
 
                     return winner;
                 }
                 else
                 {
-                    currentPlayer++;
-                    if (currentPlayer == players.Count) currentPlayer = 0;
+                    currentPlayerIndex++;
+                    if (currentPlayerIndex == players.Count) currentPlayerIndex = 0;
                     return false;
                 }
             }
             else
             {
                 Log("Answer was corrent!!!!");
-                purses[currentPlayer]++;
-                Log(players[currentPlayer]
+                CurrentPlayer.Purse++;
+                Log(CurrentPlayer
                         + " now has "
-                        + purses[currentPlayer]
+                        + CurrentPlayer.Purse
                         + " Gold Coins.");
 
                 bool winner = DidPlayerWin();
-                currentPlayer++;
-                if (currentPlayer == players.Count) currentPlayer = 0;
+                currentPlayerIndex++;
+                if (currentPlayerIndex == players.Count) currentPlayerIndex = 0;
 
                 return winner;
             }
@@ -153,21 +147,39 @@ namespace Trivia.Core
         public void WrongAnswer()
         {
             Log("Question was incorrectly answered");
-            Log(players[currentPlayer] + " was sent to the penalty box");
-            inPenaltyBox[currentPlayer] = true;
+            Log(CurrentPlayer.Name + " was sent to the penalty box");
+            CurrentPlayer.InPenaltyBox = true;
 
-            currentPlayer++;
-            if (currentPlayer == players.Count) currentPlayer = 0;
+            currentPlayerIndex++;
+            if (currentPlayerIndex == players.Count) currentPlayerIndex = 0;
         }
 
         private bool DidPlayerWin()
         {
-            return purses[currentPlayer] == 6;
+            return CurrentPlayer.Purse == 6;
         }
 
         private void Log(string message)
         {
             Console.WriteLine(message);
+        }
+    }
+
+    public class Player
+    {
+        public string Name { get; }
+        public int Purse { get; set;  }
+        public int Position { get; set; }
+        public bool InPenaltyBox { get; set; }
+
+        public Player(string name)
+        {
+            Name = name;
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 
