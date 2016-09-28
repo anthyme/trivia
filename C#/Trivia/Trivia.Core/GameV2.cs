@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Trivia.Core
 {
@@ -37,15 +38,14 @@ namespace Trivia.Core
         public void AddPlayer(string playerName)
         {
             players.Add(playerName);
-
-            Console.WriteLine(playerName + " was added");
-            Console.WriteLine("They are player number " + players.Count);
+            Log(playerName + " was added");
+            Log("They are player number " + players.Count);
         }
 
         public void Roll(int roll)
         {
-            Console.WriteLine(players[currentPlayer] + " is the current player");
-            Console.WriteLine("They have rolled a " + roll);
+            Log(players[currentPlayer] + " is the current player");
+            Log("They have rolled a " + roll);
 
             if (inPenaltyBox[currentPlayer])
             {
@@ -53,19 +53,19 @@ namespace Trivia.Core
                 {
                     isGettingOutOfPenaltyBox = true;
 
-                    Console.WriteLine(players[currentPlayer] + " is getting out of the penalty box");
+                    Log(players[currentPlayer] + " is getting out of the penalty box");
                     places[currentPlayer] = places[currentPlayer] + roll;
                     if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
 
-                    Console.WriteLine(players[currentPlayer]
+                    Log(players[currentPlayer]
                             + "'s new location is "
                             + places[currentPlayer]);
-                    Console.WriteLine("The category is " + CurrentCategory());
+                    Log("The category is " + CurrentCategory());
                     AskQuestion();
                 }
                 else
                 {
-                    Console.WriteLine(players[currentPlayer] + " is not getting out of the penalty box");
+                    Log(players[currentPlayer] + " is not getting out of the penalty box");
                     isGettingOutOfPenaltyBox = false;
                 }
 
@@ -75,10 +75,10 @@ namespace Trivia.Core
                 places[currentPlayer] = places[currentPlayer] + roll;
                 if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
 
-                Console.WriteLine(players[currentPlayer]
+                Log(players[currentPlayer]
                         + "'s new location is "
                         + places[currentPlayer]);
-                Console.WriteLine("The category is " + CurrentCategory());
+                Log("The category is " + CurrentCategory());
                 AskQuestion();
             }
         }
@@ -87,19 +87,19 @@ namespace Trivia.Core
         {
             if (CurrentCategory() == "Pop")
             {
-                Console.WriteLine(popQuestions.Dequeue());
+                Log(popQuestions.Dequeue());
             }
             if (CurrentCategory() == "Science")
             {
-                Console.WriteLine(scienceQuestions.Dequeue());
+                Log(scienceQuestions.Dequeue());
             }
             if (CurrentCategory() == "Sports")
             {
-                Console.WriteLine(sportsQuestions.Dequeue());
+                Log(sportsQuestions.Dequeue());
             }
             if (CurrentCategory() == "Rock")
             {
-                Console.WriteLine(rockQuestions.Dequeue());
+                Log(rockQuestions.Dequeue());
             }
         }
 
@@ -124,9 +124,9 @@ namespace Trivia.Core
             {
                 if (isGettingOutOfPenaltyBox)
                 {
-                    Console.WriteLine("Answer was correct!!!!");
+                    Log("Answer was correct!!!!");
                     purses[currentPlayer]++;
-                    Console.WriteLine(players[currentPlayer]
+                    Log(players[currentPlayer]
                             + " now has "
                             + purses[currentPlayer]
                             + " Gold Coins.");
@@ -146,9 +146,9 @@ namespace Trivia.Core
             }
             else
             {
-                Console.WriteLine("Answer was corrent!!!!");
+                Log("Answer was corrent!!!!");
                 purses[currentPlayer]++;
-                Console.WriteLine(players[currentPlayer]
+                Log(players[currentPlayer]
                         + " now has "
                         + purses[currentPlayer]
                         + " Gold Coins.");
@@ -163,8 +163,8 @@ namespace Trivia.Core
 
         public bool WrongAnswer()
         {
-            Console.WriteLine("Question was incorrectly answered");
-            Console.WriteLine(players[currentPlayer] + " was sent to the penalty box");
+            Log("Question was incorrectly answered");
+            Log(players[currentPlayer] + " was sent to the penalty box");
             inPenaltyBox[currentPlayer] = true;
 
             currentPlayer++;
@@ -175,6 +175,11 @@ namespace Trivia.Core
         private bool DidPlayerWin()
         {
             return purses[currentPlayer] != 6;
+        }
+
+        private void Log(string message)
+        {
+            Console.WriteLine(message);
         }
     }
 }
