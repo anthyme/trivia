@@ -150,7 +150,7 @@ namespace Trivia.Core
             }
         }
 
-        public bool WrongAnswer()
+        public void WrongAnswer()
         {
             Log("Question was incorrectly answered");
             Log(players[currentPlayer] + " was sent to the penalty box");
@@ -158,7 +158,6 @@ namespace Trivia.Core
 
             currentPlayer++;
             if (currentPlayer == players.Count) currentPlayer = 0;
-            return true;
         }
 
         private bool DidPlayerWin()

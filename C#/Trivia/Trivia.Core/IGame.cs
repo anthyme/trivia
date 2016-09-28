@@ -4,7 +4,7 @@ namespace Trivia.Core
     {
         void AddPlayer(string name);
         void Roll(int value);
-        bool WrongAnswer();
+        void WrongAnswer();
         bool CorrectAnswer();
     }
 
@@ -27,9 +27,9 @@ namespace Trivia.Core
             game.roll(value);
         }
 
-        public bool WrongAnswer()
+        public void WrongAnswer()
         {
-            return game.wrongAnswer();
+            game.wrongAnswer();
         }
 
         public bool CorrectAnswer()

@@ -7,7 +7,6 @@ namespace Trivia
     public class GameRunner
     {
 
-        private static bool notAWinner;
 
         public static void Main(string[] args)
         {
@@ -25,6 +24,8 @@ namespace Trivia
 
                 Random rand = new Random();
 
+                bool notAWinner = true;
+
                 do
                 {
                     var roll = rand.Next(5) + 1;
@@ -32,7 +33,7 @@ namespace Trivia
 
                     if (rand.Next(9) == 7)
                     {
-                        notAWinner = aGame.WrongAnswer();
+                        aGame.WrongAnswer();
                     }
                     else
                     {
