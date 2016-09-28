@@ -34,13 +34,12 @@ namespace Trivia.Core
 
         private int PlayerCount => players.Count;
 
-        public bool AddPlayer(string playerName)
+        public void AddPlayer(string playerName)
         {
             players.Add(playerName);
 
             Console.WriteLine(playerName + " was added");
             Console.WriteLine("They are player number " + players.Count);
-            return true;
         }
 
         public void Roll(int roll)

@@ -2,7 +2,7 @@ namespace Trivia.Core
 {
     public interface IGame
     {
-        bool AddPlayer(string name);
+        void AddPlayer(string name);
         void Roll(int value);
         bool WrongAnswer();
         bool CorrectAnswer();
@@ -17,9 +17,9 @@ namespace Trivia.Core
             game = new Game();
         }
 
-        public bool AddPlayer(string name)
+        public void AddPlayer(string name)
         {
-            return game.add(name);
+            game.add(name);
         }
 
         public void Roll(int value)

@@ -17,33 +17,29 @@ namespace Trivia
             using (var writer2 = new StreamWriter(stream2))
             {
                 Console.SetOut(writer1);
-                Game aGame = new Game();
+                var aGame = new LegacyGameAdapter();
 
-                aGame.add("Chet");
-                aGame.add("Pat");
-                aGame.add("Sue");
+                aGame.AddPlayer("Chet");
+                aGame.AddPlayer("Pat");
+                aGame.AddPlayer("Sue");
 
                 Random rand = new Random();
 
                 do
                 {
                     var roll = rand.Next(5) + 1;
-                    aGame.roll(roll);
-                    writer2.WriteLine($"game.roll({roll});");
+                    aGame.Roll(roll);
 
                     if (rand.Next(9) == 7)
                     {
-                        notAWinner = aGame.wrongAnswer();
-                        writer2.WriteLine("game.wrongAnswer();");
+                        notAWinner = aGame.WrongAnswer();
                     }
                     else
                     {
-                        notAWinner = aGame.wasCorrectlyAnswered();
-                        writer2.WriteLine("game.wasCorrectlyAnswered();");
+                        notAWinner = aGame.CorrectAnswer();
                     }
                 } while (notAWinner);
             }
         }
     }
 }
-
