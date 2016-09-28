@@ -4,3 +4,7 @@
 # an example. Thanks.
 /C#/Trivia/Trivia.Core/bin/Debug
 /C#/Trivia/Trivia.Core/obj/Debug
+/C#/Trivia/packages
+/C#/Trivia/Trivia.Tests/bin/Debug
+/C#/Trivia/Trivia.Tests/obj/Debug
+/C#/Trivia/Trivia.sln.DotSettings.user

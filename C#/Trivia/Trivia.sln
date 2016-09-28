@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trivia", "Trivia\Trivia.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trivia.Core", "Trivia.Core\Trivia.Core.csproj", "{AF6F63CC-A273-4E83-A21B-8B6620894D9F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trivia.Tests", "Trivia.Tests\Trivia.Tests.csproj", "{024FE55D-5934-475D-89DE-4F92C52A3D24}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,14 @@ Global
 		{AF6F63CC-A273-4E83-A21B-8B6620894D9F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AF6F63CC-A273-4E83-A21B-8B6620894D9F}.Release|x86.ActiveCfg = Release|Any CPU
 		{AF6F63CC-A273-4E83-A21B-8B6620894D9F}.Release|x86.Build.0 = Release|Any CPU
+		{024FE55D-5934-475D-89DE-4F92C52A3D24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{024FE55D-5934-475D-89DE-4F92C52A3D24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{024FE55D-5934-475D-89DE-4F92C52A3D24}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{024FE55D-5934-475D-89DE-4F92C52A3D24}.Debug|x86.Build.0 = Debug|Any CPU
+		{024FE55D-5934-475D-89DE-4F92C52A3D24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{024FE55D-5934-475D-89DE-4F92C52A3D24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{024FE55D-5934-475D-89DE-4F92C52A3D24}.Release|x86.ActiveCfg = Release|Any CPU
+		{024FE55D-5934-475D-89DE-4F92C52A3D24}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
