@@ -30,14 +30,14 @@ namespace Trivia.Tests
         [Fact]
         public void TestV2MatchLegacyGameResults()
         {
-            using (var file = File.Create("legacy.txt"))
+            using (var file = File.OpenWrite("legacy.txt"))
             using (var writer = new StreamWriter(file))
             {
                 Console.SetOut(writer);
                 Helper.Run(new LegacyGameAdapter());
             }
 
-            using (var file = File.Create("v2.txt"))
+            using (var file = File.OpenWrite("v2.txt"))
             using (var writer = new StreamWriter(file))
             {
                 Console.SetOut(writer);

@@ -14,15 +14,34 @@ namespace Trivia.Core
 
         private readonly bool[] inPenaltyBox = new bool[6];
 
-        private readonly Queue<string> popQuestions = new Queue<string>();
-        private readonly Queue<string> scienceQuestions = new Queue<string>();
-        private readonly Queue<string> sportsQuestions = new Queue<string>();
-        private readonly Queue<string> rockQuestions = new Queue<string>();
+        private readonly Deck popQuestions = new Deck();
+        private readonly Deck scienceQuestions = new Deck();
+        private readonly Deck sportsQuestions = new Deck();
+        private readonly Deck rockQuestions = new Deck();
+        private readonly Board board;
 
         private int currentPlayer = 0;
+
         private bool isGettingOutOfPenaltyBox;
 
         public GameV2()
+        {
+            CreateQuestions();
+            board = new Board(CreateSquares());
+        }
+
+        private IEnumerable<Square> CreateSquares()
+        {
+            foreach (var i in Enumerable.Range(0, 3))
+            {
+                yield return new Square("Pop", popQuestions);
+                yield return new Square("Science", scienceQuestions);
+                yield return new Square("Sports", sportsQuestions);
+                yield return new Square("Rock", rockQuestions);
+            }
+        }
+
+        private void CreateQuestions()
         {
             for (int i = 0; i < 50; i++)
             {
@@ -60,7 +79,7 @@ namespace Trivia.Core
                     Log(players[currentPlayer]
                             + "'s new location is "
                             + places[currentPlayer]);
-                    Log("The category is " + CurrentCategory());
+                    Log("The category is " + board[places[currentPlayer]].Category);
                     AskQuestion();
                 }
                 else
@@ -68,7 +87,6 @@ namespace Trivia.Core
                     Log(players[currentPlayer] + " is not getting out of the penalty box");
                     isGettingOutOfPenaltyBox = false;
                 }
-
             }
             else
             {
@@ -78,44 +96,15 @@ namespace Trivia.Core
                 Log(players[currentPlayer]
                         + "'s new location is "
                         + places[currentPlayer]);
-                Log("The category is " + CurrentCategory());
+                Log("The category is " + board[places[currentPlayer]].Category);
                 AskQuestion();
             }
         }
 
         private void AskQuestion()
         {
-            if (CurrentCategory() == "Pop")
-            {
-                Log(popQuestions.Dequeue());
-            }
-            if (CurrentCategory() == "Science")
-            {
-                Log(scienceQuestions.Dequeue());
-            }
-            if (CurrentCategory() == "Sports")
-            {
-                Log(sportsQuestions.Dequeue());
-            }
-            if (CurrentCategory() == "Rock")
-            {
-                Log(rockQuestions.Dequeue());
-            }
-        }
-
-
-        private string CurrentCategory()
-        {
-            if (places[currentPlayer] == 0) return "Pop";
-            if (places[currentPlayer] == 4) return "Pop";
-            if (places[currentPlayer] == 8) return "Pop";
-            if (places[currentPlayer] == 1) return "Science";
-            if (places[currentPlayer] == 5) return "Science";
-            if (places[currentPlayer] == 9) return "Science";
-            if (places[currentPlayer] == 2) return "Sports";
-            if (places[currentPlayer] == 6) return "Sports";
-            if (places[currentPlayer] == 10) return "Sports";
-            return "Rock";
+            var card = board[places[currentPlayer]].AssociatedDeck.Dequeue();
+            Log(card);
         }
 
         public bool CorrectAnswer()
@@ -182,4 +171,23 @@ namespace Trivia.Core
             Console.WriteLine(message);
         }
     }
+
+    class Board : List<Square>
+    {
+        public Board(IEnumerable<Square> squares) : base(squares) { }
+    }
+
+    class Square
+    {
+        public string Category { get; }
+        public Deck AssociatedDeck { get; }
+
+        public Square(string category, Deck associatedDeck)
+        {
+            Category = category;
+            AssociatedDeck = associatedDeck;
+        }
+    }
+
+    class Deck : Queue<string> { }
 }
