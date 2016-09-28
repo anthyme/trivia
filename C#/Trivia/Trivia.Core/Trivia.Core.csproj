@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="GameV2.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="IGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
